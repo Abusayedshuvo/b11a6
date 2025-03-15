@@ -1,0 +1,12 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.level-btn.active {
+  background-color: #422ad5;
+  color: #fff;
+}
