@@ -53,7 +53,7 @@ const displayShow = (cards) => {
               </p>
             </div>
             <div class="flex mt-14 justify-between">
-              <button class="bg-[#1A91FF]/10 p-4 rounded-lg">
+              <button onclick="my_modal_1.showModal(); loadWord(${item.id})" class="btn bg-[#1A91FF]/10 p-4 rounded-lg">
                 <i class="fa-solid fa-circle-exclamation"></i>
               </button>
               <button class="bg-[#1A91FF]/10 p-4 rounded-lg">
@@ -78,5 +78,61 @@ const displayShow = (cards) => {
   }
 };
 
+const loadWord = async (word_no) => {
+  const response = await fetch(
+    `https://openapi.programming-hero.com/api/word/${word_no}`
+  );
+  const data = await response.json();
+  displayModal(data.data);
+};
+
+const displayModal = (info) => {
+  const modal = document.getElementById("my_modal_1");
+  modal.innerHTML = "";
+  const modalBox = document.createElement("div");
+  modalBox.classList.add("modal-box");
+
+  modalBox.innerHTML = ` 
+           <h3 class="text-4xl font-bold">
+      ${info?.word}   ( <i class="fa-solid fa-headphones"></i> : ${
+    info?.pronunciation
+  })
+      </h3>
+
+      <p class="text-2xl font-semibold mt-8 mb-2">Meaning</p>
+      <p class="text-2xl font-medium"> ${info?.meaning}  </p>
+
+      <p class="text-2xl font-semibold mt-8 mb-2">Example</p>
+      <p class="text-2xl ">
+      ${info?.sentence} 
+      </p>
+
+      <p class="text-2xl font-semibold mt-8 mb-4">সমার্থক শব্দ গুলো</p> 
+<div id="tags">
+ ${info?.synonyms
+   ?.map(
+     (item) => `
+        <span class="bg-[#EDF7FF] border-[#D7E4EF] px-5 py-3 rounded-md me-3">
+          ${item}
+        </span>
+      `
+   )
+   .join("")}
+  </div>
+    
+
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn bg-[#422AD5] text-white rounded-lg p-5">
+        Complete Learning
+      </button>
+          </form>
+        </div>
+     
+  `;
+  modal.appendChild(modalBox);
+};
+
+displayModal();
 loadLevel();
 loadCategory();
