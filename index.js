@@ -56,7 +56,7 @@ const displayShow = (cards) => {
               <button onclick="my_modal_1.showModal(); loadWord(${item.id})" class="btn bg-[#1A91FF]/10 p-4 rounded-lg">
                 <i class="fa-solid fa-circle-exclamation"></i>
               </button>
-              <button class="bg-[#1A91FF]/10 p-4 rounded-lg">
+              <button  onclick="pronounceWord('${item.word}')" class="bg-[#1A91FF]/10 p-4 rounded-lg">
                 <i class="fa-solid fa-volume-high"></i>
               </button>
             </div>
@@ -132,6 +132,12 @@ const displayModal = (info) => {
   `;
   modal.appendChild(modalBox);
 };
+
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
 
 displayModal();
 loadLevel();
